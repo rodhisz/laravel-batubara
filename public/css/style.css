@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+body{
+    background-color: #f9f9f9 !important;
+    font-family: 'Poppins', sans-serif !important;
+    color: #404040 !important;
+}
+a{
+    text-decoration: none !important;
+}
+p{
+    margin-bottom: 0px !important;
+}
+
+/* login */
+.login{
+    height: 100vh;
+    align-items: center;
+}
+.login .row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.login .card{
+    width: 450px;
+    margin: auto;
+}
+.login .card .card-body .subject{
+    width: 100%;
+}
+.login .card .card-body .subject h1{
+    font-weight: 500;
+}
+.login .card .card-body .remember .form-check{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.login .card .card-body .remember input{
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+}
+.login .card .card-body .remember label{
+    font-size: 12px;
+}
+.login .card .card-body button{
+    width: 100%;
+    padding: 12px 0px;
+    background: linear-gradient(90deg, #FF9B44 -0.08%, #FC6075 100.08%);
+    border: none;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* Sidebar */
+.sidebar{
+    width: 260px;
+    background-color: white;
+    border-radius: 0px 45px 45px 0px;
+    box-shadow: 2px 2px 8px rgba(142, 142, 142, 0.1);
+    margin: 10px 0px !important;
+    height: 98vh;
+    position: fixed;
+    align-items: center;
+}
+.sidebar center{
+    margin: 30px auto;
+    margin-top: 20px;
+}
+.sidebar .content_sidebar{
+    min-height: 90vh;
+}
+.sidebar .button_logout{
+    width: 100%;
+}
+.sidebar .button_logout form, button{
+    width: 100%;
+}
+.sidebar .button_logout form button{
+    padding: 10px 0px;
+    border: 0px;
+    border-radius: 10px;
+    color: #FD6E6B;
+    background-color: #FFF3F3;
+}
+/*Active links*/
+.nav__link{
+    /* position: relative; */
+    color: #AFA5D9;
+    margin-bottom: 1.5rem;
+    transition: .3s;
+}
+.nav__name{
+    font-size: 16px;
+    color: #A4A6B3;
+
+}
+.nav__link:hover{
+    color: #FD6E6B;
+}
+.nav__link.active{
+    color: #FD6E6B !important;
+    background-color: #FFF3F3;
+}
+.active .nav__name{
+    color: #FD6E6B;
+}
+.nav__link a{
+    color: #A4A6B3;
+}
+.nav__link.active::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 2px;
+    height: 59px;
+    background-color: #FD6E6B;
+}
+
+/* navbar */
+nav .left h1{
+    font-weight: 600;
+    color: #404040;
+}
+nav .left h5{
+    font-size: 18px;
+    color: #AEAEAE;
+}
+nav .center p{
+    color: #404040;
+    margin-bottom: 0px;
+}
+nav .center p span{
+    font-weight: 300;
+}
+nav .center p.start{
+    color: #FD6E6B;
+    font-weight: 500;
+}
+nav .center p.end{
+    color: #FF9947;
+    font-weight: 500;
+}
+nav .right h5, p{
+    text-transform: Capitalize
+}
+nav .right p{
+    font-weight: 400;
+    color: #AEAEAE;
+}
+
+
+/* Dashboard */
+.dashboard, .data{
+    margin-left: 260px;
+}
+.dashboard .ito h4{
+    font-weight: 500;
+}
+.dashboard .ito .card{
+    border-radius: 15px;
+    border: 0px;
+}
+.dashboard .ito .card .card-body{
+    color: #999999;
+}
+.dashboard .ito .card .card-body .aktual{
+    background-color: #FD6E6B;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+}
+.dashboard .ito .card .card-body .over{
+    background-color: #D0413E;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+}
+.dashboard .ito .card .card-body .under{
+    background-color: #FE7664;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+}
+.dashboard .ito .card .card-body .balance{
+    background-color: #FF9947;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+}
+.dashboard .ito .card .card-body .plan{
+    background-color: #FF9947;
+}
+/* table dashboard */
+.dashboard .ito .card .card-body .data-table td, th{
+    border-bottom: 0px !important;
+}
+.dashboard .ito .card .card-body .data-table td.aktual-text, th.aktual-text{
+    color: #FD6E6B;
+}
+.dashboard .ito .card .card-body .data-table td.plan-text, th.plan-text{
+    color: #FF9947;
+}
+
+/* data */
+.data .nav-link{
+    color: #A4A6B3;
+    border: 2px solid white !important;
+    border-radius: 10px;
+}
+.data .nav-tabs{
+    border: 0px !important;
+}
+.data .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active, .nav-link.active{
+    color: #FD6E6B !important;
+    background-color: #FFF3F3 !important;
+    border: 2px solid white !important;
+    border-radius: 10px;
+}
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover{
+    color: #FD6E6B !important;
+    background-color: #FFF3F3 !important;
+    border: 2px solid white !important;
+    border-radius: 10px;
+}
+.data.dashboard .ito .card{
+    max-height: 450px;
+    overflow: scroll;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+
+/* Daily */
+.daily tr.grand-total, .daily thead tr{
+    background-color: #FD6E6B;
+    color: white;
+}
+.daily thead tr.table-inventory, .daily tr.table-inventory{
+    background-color: #ff9524;
+}
+.daily tr:nth-child(even){
+    background-color: #FFF3F3;
+}
