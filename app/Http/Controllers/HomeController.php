@@ -31,45 +31,55 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        // dd(Carbon::now()->toArray());
         $i = 1;
 
-        $date = Carbon::now()->toString();
+        $date = Carbon::today()->toDateString();
+        $currentDate = Carbon::now();
+        // $week = Carbon::now()->subWeek()->toDateString();
+        $week = $currentDate->subDays($currentDate->dayOfWeek - 1);
 
-        $data = Data::whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $data_gr = DataGr::whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $amount_terbesar = AmountTerbesar:: whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $data_gi = DataGi:: whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $data_ito = DataIto::whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $data_ito_all = DataItoAll::whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
+        $past = Data::whereBetween('created_at', [$week . " 00:00:00", $date . " 23:59:59"])->get();
+
+        // $collect = collect($past);
+
+
+        $data = Data::whereDate('created_at', $date)->get();
+        $data_gr = DataGr::whereDate('created_at', $date)->get();
+        $amount_terbesar = AmountTerbesar::whereDate('created_at', $date)->get();
+        $data_gi = DataGi::whereDate('created_at', $date)->get();
+        $data_ito = DataIto::whereDate('created_at', $date)->get();
+        $data_ito_all = DataItoAll::whereDate('created_at', $date)->get();
 
         $ito_terbesar = DataIto::orderBy('achievement', 'desc')->get();
 
-        $totalfogc = DB::table('data')->sum('fogc');
-        $totalgens = DB::table('data')->sum('gens');
-        $totalmdle = DB::table('data')->sum('mdle');
-        $totalsprt = DB::table('data')->sum('sprt');
-        $totaltyre = DB::table('data')->sum('tyre');
-        $totalgrandtotal = DB::table('data')->sum('grand_total');
+        $totalfogc = Data::whereDate('created_at', $date)->sum('fogc');
+        $totalgens = Data::whereDate('created_at', $date)->sum('gens');
+        $totalmdle = Data::whereDate('created_at', $date)->sum('mdle');
+        $totalsprt = Data::whereDate('created_at', $date)->sum('sprt');
+        $totaltyre = Data::whereDate('created_at', $date)->sum('tyre');
+        $totalgrandtotal = Data::whereDate('created_at', $date)->sum('grand_total');
 
-        $gr_totalfogc = DB::table('data_gr')->sum('gr_fogc');
-        $gr_totalgens = DB::table('data_gr')->sum('gr_gens');
-        $gr_totalmdle = DB::table('data_gr')->sum('gr_mdle');
-        $gr_totalsprt = DB::table('data_gr')->sum('gr_sprt');
-        $gr_totaltyre = DB::table('data_gr')->sum('gr_tyre');
-        $gr_totalgrandtotal = DB::table('data_gr')->sum('gr_grand_total');
+        $gr_totalfogc = DataGr::whereDate('created_at', $date)->sum('gr_fogc');
+        $gr_totalgens = DataGr::whereDate('created_at', $date)->sum('gr_gens');
+        $gr_totalmdle = DataGr::whereDate('created_at', $date)->sum('gr_mdle');
+        $gr_totalsprt = DataGr::whereDate('created_at', $date)->sum('gr_sprt');
+        $gr_totaltyre = DataGr::whereDate('created_at', $date)->sum('gr_tyre');
+        $gr_totalgrandtotal = DataGr::whereDate('created_at', $date)->sum('gr_grand_total');
 
-        $gi_totalfogc = DB::table('data_gi')->sum('gi_fogc');
-        $gi_totalgens = DB::table('data_gi')->sum('gi_gens');
-        $gi_totalmdle = DB::table('data_gi')->sum('gi_mdle');
-        $gi_totalsprt = DB::table('data_gi')->sum('gi_sprt');
-        $gi_totaltyre = DB::table('data_gi')->sum('gi_tyre');
-        $gi_totalgrandtotal = DB::table('data_gi')->sum('gi_grand_total');
+        $gi_totalfogc = DataGi::whereDate('created_at', $date)->sum('gi_fogc');
+        $gi_totalgens = DataGi::whereDate('created_at', $date)->sum('gi_gens');
+        $gi_totalmdle = DataGi::whereDate('created_at', $date)->sum('gi_mdle');
+        $gi_totalsprt = DataGi::whereDate('created_at', $date)->sum('gi_sprt');
+        $gi_totaltyre = DataGi::whereDate('created_at', $date)->sum('gi_tyre');
+        $gi_totalgrandtotal = DataGi::whereDate('created_at', $date)->sum('gi_grand_total');
 
         // return dd();
 
         return view('daily/homeDaily', compact(
             'i',
-            // 'date',
+            'date',
+            'past',
             'data',
             'data_gr',
             'amount_terbesar',
@@ -104,36 +114,36 @@ class HomeController extends Controller
 
         $i = 1;
 
-        $date= $request->date;
-        $data = Data::whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $data_gr = DataGr::whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $amount_terbesar = AmountTerbesar:: whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $data_gi = DataGi:: whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $data_ito = DataIto::whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
-        $data_ito_all = DataItoAll::whereBetween('created_at', [$date. " 00:00:00", $date. " 23:59:59"])->get();
+        $date = $request->date;
+        $data = Data::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->get();
+        $data_gr = DataGr::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->get();
+        $amount_terbesar = AmountTerbesar::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->get();
+        $data_gi = DataGi::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->get();
+        $data_ito = DataIto::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->get();
+        $data_ito_all = DataItoAll::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->get();
 
         $ito_terbesar = DataIto::orderBy('achievement', 'desc')->get();
 
-        $totalfogc = DB::table('data')->sum('fogc');
-        $totalgens = DB::table('data')->sum('gens');
-        $totalmdle = DB::table('data')->sum('mdle');
-        $totalsprt = DB::table('data')->sum('sprt');
-        $totaltyre = DB::table('data')->sum('tyre');
-        $totalgrandtotal = DB::table('data')->sum('grand_total');
+        $totalfogc = Data::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('fogc');
+        $totalgens = Data::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gens');
+        $totalmdle = Data::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('mdle');
+        $totalsprt = Data::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('sprt');
+        $totaltyre = Data::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('tyre');
+        $totalgrandtotal = Data::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('grand_total');
 
-        $gr_totalfogc = DB::table('data_gr')->sum('gr_fogc');
-        $gr_totalgens = DB::table('data_gr')->sum('gr_gens');
-        $gr_totalmdle = DB::table('data_gr')->sum('gr_mdle');
-        $gr_totalsprt = DB::table('data_gr')->sum('gr_sprt');
-        $gr_totaltyre = DB::table('data_gr')->sum('gr_tyre');
-        $gr_totalgrandtotal = DB::table('data_gr')->sum('gr_grand_total');
+        $gr_totalfogc = DataGr::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gr_fogc');
+        $gr_totalgens = DataGr::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gr_gens');
+        $gr_totalmdle = DataGr::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gr_mdle');
+        $gr_totalsprt = DataGr::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gr_sprt');
+        $gr_totaltyre = DataGr::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gr_tyre');
+        $gr_totalgrandtotal = DataGr::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gr_grand_total');
 
-        $gi_totalfogc = DB::table('data_gi')->sum('gi_fogc');
-        $gi_totalgens = DB::table('data_gi')->sum('gi_gens');
-        $gi_totalmdle = DB::table('data_gi')->sum('gi_mdle');
-        $gi_totalsprt = DB::table('data_gi')->sum('gi_sprt');
-        $gi_totaltyre = DB::table('data_gi')->sum('gi_tyre');
-        $gi_totalgrandtotal = DB::table('data_gi')->sum('gi_grand_total');
+        $gi_totalfogc = DataGi::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gi_fogc');
+        $gi_totalgens = DataGi::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gi_gens');
+        $gi_totalmdle = DataGi::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gi_mdle');
+        $gi_totalsprt = DataGi::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gi_sprt');
+        $gi_totaltyre = DataGi::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gi_tyre');
+        $gi_totalgrandtotal = DataGi::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gi_grand_total');
 
 
 
