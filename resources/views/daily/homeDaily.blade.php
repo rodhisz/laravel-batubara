@@ -88,11 +88,19 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
         </nav>
         {{-- EndNavbar --}}
 
-        @forelse ($past as $item)
-        {{ $item->grand_total }}
-        @empty
+        {{-- {{ number_format($past) }} --}}
 
-        @endforelse
+        {{-- {{ $collect }} --}}
+
+        @foreach ($grand as $item)
+        {{ Carbon\Carbon::parse($item['created_at'])->format('d M Y') }}
+        {{ number_format($item['grand_total']) }} <br>
+        @endforeach
+
+        {{-- @foreach ($past as $item)
+        {{ $item->grand_total }}
+        {{ Carbon\Carbon::parse($item['created_at'])->format('Y m d') }}
+        @endforeach --}}
 
         <div class="ito mb-4">
             <h4>Inventory All Site</h4>
@@ -968,20 +976,27 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
     });
 </script>
 
-// <script>
-    //     Morris.Line({
-	// 	element: 'inventory-line-charts',
-	// 	data: [<?php echo $chart_data; ?>],
-	// 	xkey: 'project_site',
-	// 	ykeys: ['fogc','gens','mdle','sprt','tyre'],
-	// 	labels: ['Total Income','FOGC','GENS','MDLE','SPRT','TYRE'],
-	// 	lineColors: ['#ff9b44'],
-	// 	lineWidth: '3px',
-	// 	barColors: ['#ff9b44'],
-	// 	resize: true,
-	// 	redraw: true
-    // });
-    //
+<script>
+    Morris.Line({
+		element: 'inventory-line-charts',
+		data: [
+			{ y: '2021-12-24', a: 50},
+			{ y: '2021-12-25', a: 75},
+			{ y: '2021-12-26', a: 50,},
+			{ y: '2021-12-27', a: 75,},
+			{ y: '2021-12-28', a: 50,},
+			{ y: '2021-12-29', a: 75,},
+			{ y: '2021-12-30', a: 100,}
+		],
+		xkey: 'y',
+		ykeys: ['a'],
+		labels: ['Total Sales'],
+		lineColors: ['#ff9b44','#fc6075'],
+		lineWidth: '3px',
+		resize: true,
+		redraw: true
+	});
+
 </script>
 
 <script type="text/javascript">
