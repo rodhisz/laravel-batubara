@@ -9,6 +9,7 @@ use App\Models\DataGr;
 use App\Models\DataIto;
 use App\Models\DataItoAll;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -31,18 +32,45 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        // dd(Carbon::now()->toArray());
         $i = 1;
 
         $date = Carbon::today()->toDateString();
         $currentDate = Carbon::now();
-        // $week = Carbon::now()->subWeek()->toDateString();
-        $week = $currentDate->subDays($currentDate->dayOfWeek - 1);
 
-        $past = Data::whereBetween('created_at', [$week . " 00:00:00", $date . " 23:59:59"])->get();
+        // $past = Data::where('created_at', '>', Carbon::now()->subDays(7))->get();
+        // $grand = [];
 
-        // $collect = collect($past);
+        // foreach ($grand as $item) {
+        //     $dis = Data::whereDate('created_at', $item->created_at)->sum('grand_total');
+        //     $grand[] = [
+        //         "created_at" => $item->created_at,
+        //         "grand_total" => $dis,
+        //     ];
+        // }
 
+        // $period = CarbonPeriod::create(Carbon::now()->subDays(7), Carbon::today());
+
+        // foreach ($period as $item) {
+        //     $dis = Data::whereDate('created_at', $period->format('Y-m-d'))->sum('grand_total');
+        //     $grand[] = [
+        //         "created_at" => $item->created_at,
+        //         "grand_total" => $dis,
+        //     ];
+        // }
+
+        // $collect = collect($grand);
+
+        $from = Carbon::now()->subDays(7)->format('Y-m-d');
+        $to = Carbon::now()->format('Y-m-d');
+        $period = CarbonPeriod::create($from, $to);
+        $grand = [];
+        foreach ($period as $item) {
+            $dis = Data::whereDate('created_at', $item->format('Y-m-d'))->sum('grand_total');
+            $grand[] = [
+                "created_at" => $item->format('Y-m-d'),
+                "grand_total" => $dis,
+            ];
+        }
 
         $data = Data::whereDate('created_at', $date)->get();
         $data_gr = DataGr::whereDate('created_at', $date)->get();
@@ -74,12 +102,10 @@ class HomeController extends Controller
         $gi_totaltyre = DataGi::whereDate('created_at', $date)->sum('gi_tyre');
         $gi_totalgrandtotal = DataGi::whereDate('created_at', $date)->sum('gi_grand_total');
 
-        // return dd();
-
         return view('daily/homeDaily', compact(
             'i',
             'date',
-            'past',
+            'grand',
             'data',
             'data_gr',
             'amount_terbesar',
