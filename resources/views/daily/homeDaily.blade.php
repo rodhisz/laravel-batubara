@@ -3,7 +3,7 @@
 @section('content')
 
 <?php
-$connect = mysqli_connect("127.0.0.1", "root", "", "dashboard_sm");
+$connect = mysqli_connect("127.0.0.1", "root", "", "batubara");
 $query = "SELECT * FROM data";
 $result = mysqli_query($connect, $query);
 $chart_data = '';
@@ -16,7 +16,7 @@ $chart_data = substr($chart_data, 0, -2);
 ?>
 
 <?php
-$connect = mysqli_connect("127.0.0.1", "root", "", "dashboard_sm");
+$connect = mysqli_connect("127.0.0.1", "root", "", "batubara");
 $query = "SELECT * FROM data_gi";
 $result = mysqli_query($connect, $query);
 $chart_dataGi = '';
@@ -29,7 +29,7 @@ $chart_dataGi = substr($chart_dataGi, 0, -2);
 ?>
 
 <?php
-$connect = mysqli_connect("127.0.0.1", "root", "", "dashboard_sm");
+$connect = mysqli_connect("127.0.0.1", "root", "", "batubara");
 $query = "SELECT * FROM data_gr";
 $result = mysqli_query($connect, $query);
 $chart_dataGr = '';
