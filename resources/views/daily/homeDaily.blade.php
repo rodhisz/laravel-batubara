@@ -41,6 +41,14 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
 // return dd($chart_data)
 ?>
 
+<?php
+$chart_grand = '';
+foreach ($grand as $item) {
+    $chart_grand .= "{ y: '".$item["created_at"]."', a: ".$item["grand_total"]."},";
+}
+// return dd($chart_grand);
+?>
+
 <div class="dashboard daily">
     <div class="container-fluid ps-0">
 
@@ -928,6 +936,8 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
+
 <script>
     Morris.Bar({
 		element: 'inventory-bar-charts',
@@ -979,15 +989,7 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
 <script>
     Morris.Line({
 		element: 'inventory-line-charts',
-		data: [
-			{ y: '2021-12-24', a: 50},
-			{ y: '2021-12-25', a: 75},
-			{ y: '2021-12-26', a: 50,},
-			{ y: '2021-12-27', a: 75,},
-			{ y: '2021-12-28', a: 50,},
-			{ y: '2021-12-29', a: 75,},
-			{ y: '2021-12-30', a: 100,}
-		],
+		data: [<?php echo $chart_grand; ?>],
 		xkey: 'y',
 		ykeys: ['a'],
 		labels: ['Total Sales'],
