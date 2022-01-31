@@ -3,8 +3,8 @@
 @section('content')
 
 <?php
-$connect = mysqli_connect("127.0.0.1", "root", "", "dashboard_sm");
-$query = "SELECT * FROM data";
+$connect = mysqli_connect("127.0.0.1", "root", "", "batubara");
+$query = "SELECT * FROM data WHERE DATE(created_at) = '$date'";
 $result = mysqli_query($connect, $query);
 $chart_data = '';
 while($row = mysqli_fetch_array($result))
@@ -12,12 +12,12 @@ while($row = mysqli_fetch_array($result))
     $chart_data .= "{ project_site:'".$row["project_site"]."', grand_total:".$row["grand_total"]."}, ";
 }
 $chart_data = substr($chart_data, 0, -2);
-// return dd($chart_data)
+// return dd($date)
 ?>
 
 <?php
-$connect = mysqli_connect("127.0.0.1", "root", "", "dashboard_sm");
-$query = "SELECT * FROM data_gi";
+$connect = mysqli_connect("127.0.0.1", "root", "", "batubara");
+$query = "SELECT * FROM data_gi WHERE DATE(created_at) = '$date'";
 $result = mysqli_query($connect, $query);
 $chart_dataGi = '';
 while($row = mysqli_fetch_array($result))
@@ -29,8 +29,8 @@ $chart_dataGi = substr($chart_dataGi, 0, -2);
 ?>
 
 <?php
-$connect = mysqli_connect("127.0.0.1", "root", "", "dashboard_sm");
-$query = "SELECT * FROM data_gr";
+$connect = mysqli_connect("127.0.0.1", "root", "", "batubara");
+$query = "SELECT * FROM data_gr WHERE DATE(created_at) = '$date'";
 $result = mysqli_query($connect, $query);
 $chart_dataGr = '';
 while($row = mysqli_fetch_array($result))
@@ -39,6 +39,14 @@ while($row = mysqli_fetch_array($result))
 }
 $chart_datagr = substr($chart_dataGr, 0, -2);
 // return dd($chart_data)
+?>
+
+<?php
+$chart_grand = '';
+foreach ($grand as $item) {
+    $chart_grand .= "{ y: '".$item["created_at"]."', a: ".$item["grand_total"]."},";
+}
+// return dd($chart_grand);
 ?>
 
 <div class="dashboard daily">
@@ -54,7 +62,8 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
                 <div class="center">
                     <p class="mb-0">Periodic review:</p>
                     <div class="d-flex">
-                        <p class="start">Date: <span>{{($date)}}</span></p>
+                        <p class="start">Date: <span>{{ $date }}
+                            </span></p>
                         {{-- <p class="end">End Date: <span>20 desember 2021</span></p> --}}
                     </div>
                 </div>
@@ -87,6 +96,19 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
         </nav>
         {{-- EndNavbar --}}
 
+        {{-- {{ number_format($past) }} --}}
+
+        {{-- {{ $collect }} --}}
+
+        {{-- @foreach ($grand as $item)
+        {{ Carbon\Carbon::parse($item['created_at'])->format('d M Y') }}
+        {{ number_format($item['grand_total']) }} <br>
+        @endforeach --}}
+
+        {{-- @foreach ($past as $item)
+        {{ $item->grand_total }}
+        {{ Carbon\Carbon::parse($item['created_at'])->format('Y m d') }}
+        @endforeach --}}
 
         <div class="ito mb-4">
             <h4>Inventory All Site</h4>
@@ -153,8 +175,7 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
                                                     <div class="d-flex gap-3">Rp {{number_format($totaltyre)}}</div>
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex gap-3">Rp {{number_format($totalgrandtotal)}}
-                                                    </div>
+                                                    <div class="d-flex gap-3">Rp {{number_format($totalgrandtotal)}}</div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -914,6 +935,8 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
+
 <script>
     Morris.Bar({
 		element: 'inventory-bar-charts',
@@ -962,20 +985,19 @@ $chart_datagr = substr($chart_dataGr, 0, -2);
     });
 </script>
 
-// <script>
-    //     Morris.Line({
-	// 	element: 'inventory-line-charts',
-	// 	data: [<?php echo $chart_data; ?>],
-	// 	xkey: 'project_site',
-	// 	ykeys: ['fogc','gens','mdle','sprt','tyre'],
-	// 	labels: ['Total Income','FOGC','GENS','MDLE','SPRT','TYRE'],
-	// 	lineColors: ['#ff9b44'],
-	// 	lineWidth: '3px',
-	// 	barColors: ['#ff9b44'],
-	// 	resize: true,
-	// 	redraw: true
-    // });
-    //
+<script>
+    Morris.Line({
+		element: 'inventory-line-charts',
+		data: [<?php echo $chart_grand; ?>],
+		xkey: 'y',
+		ykeys: ['a'],
+		labels: ['Total Sales'],
+		lineColors: ['#ff9b44','#fc6075'],
+		lineWidth: '3px',
+		resize: true,
+		redraw: true
+	});
+
 </script>
 
 <script type="text/javascript">

@@ -4,7 +4,7 @@
 
 <?php
 $connect = mysqli_connect("127.0.0.1", "root", "", "batubara");
-$query = "SELECT * FROM data";
+$query = "SELECT * FROM data WHERE DATE(created_at) = '$date'";
 $result = mysqli_query($connect, $query);
 $chart_data = '';
 while($row = mysqli_fetch_array($result))
@@ -17,7 +17,7 @@ $chart_data = substr($chart_data, 0, -2);
 
 <?php
 $connect = mysqli_connect("127.0.0.1", "root", "", "batubara");
-$query = "SELECT * FROM data_gi";
+$query = "SELECT * FROM data_gi WHERE DATE(created_at) = '$date'";
 $result = mysqli_query($connect, $query);
 $chart_dataGi = '';
 while($row = mysqli_fetch_array($result))
@@ -30,7 +30,7 @@ $chart_dataGi = substr($chart_dataGi, 0, -2);
 
 <?php
 $connect = mysqli_connect("127.0.0.1", "root", "", "batubara");
-$query = "SELECT * FROM data_gr";
+$query = "SELECT * FROM data_gr WHERE DATE(created_at) = '$date'";
 $result = mysqli_query($connect, $query);
 $chart_dataGr = '';
 while($row = mysqli_fetch_array($result))
@@ -100,10 +100,10 @@ foreach ($grand as $item) {
 
         {{-- {{ $collect }} --}}
 
-        @foreach ($grand as $item)
+        {{-- @foreach ($grand as $item)
         {{ Carbon\Carbon::parse($item['created_at'])->format('d M Y') }}
         {{ number_format($item['grand_total']) }} <br>
-        @endforeach
+        @endforeach --}}
 
         {{-- @foreach ($past as $item)
         {{ $item->grand_total }}
@@ -175,8 +175,7 @@ foreach ($grand as $item) {
                                                     <div class="d-flex gap-3">Rp {{number_format($totaltyre)}}</div>
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex gap-3">Rp {{number_format($totalgrandtotal)}}
-                                                    </div>
+                                                    <div class="d-flex gap-3">Rp {{number_format($totalgrandtotal)}}</div>
                                                 </td>
                                             </tr>
                                         </tbody>

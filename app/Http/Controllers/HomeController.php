@@ -79,7 +79,7 @@ class HomeController extends Controller
         $data_ito = DataIto::whereDate('created_at', $date)->get();
         $data_ito_all = DataItoAll::whereDate('created_at', $date)->get();
 
-        $ito_terbesar = DataIto::orderBy('achievement', 'desc')->get();
+        $ito_terbesar = DataIto::whereDate('created_at', $date)->orderBy('achievement', 'desc')->get();
 
         $totalfogc = Data::whereDate('created_at', $date)->sum('fogc');
         $totalgens = Data::whereDate('created_at', $date)->sum('gens');
@@ -138,6 +138,18 @@ class HomeController extends Controller
     {
         // dd(Data::where($request->date)->get());
 
+        $from = Carbon::now()->subDays(7)->format('Y-m-d');
+        $to = Carbon::now()->format('Y-m-d');
+        $period = CarbonPeriod::create($from, $to);
+        $grand = [];
+        foreach ($period as $item) {
+            $dis = Data::whereDate('created_at', $item->format('Y-m-d'))->sum('grand_total');
+            $grand[] = [
+                "created_at" => $item->format('Y-m-d'),
+                "grand_total" => $dis,
+            ];
+        }
+
         $i = 1;
 
         $date = $request->date;
@@ -148,7 +160,7 @@ class HomeController extends Controller
         $data_ito = DataIto::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->get();
         $data_ito_all = DataItoAll::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->get();
 
-        $ito_terbesar = DataIto::orderBy('achievement', 'desc')->get();
+        $ito_terbesar = DataIto::whereDate('created_at', $date)->orderBy('achievement', 'desc')->get();
 
         $totalfogc = Data::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('fogc');
         $totalgens = Data::whereBetween('created_at', [$date . " 00:00:00", $date . " 23:59:59"])->sum('gens');
@@ -176,6 +188,7 @@ class HomeController extends Controller
         return view('daily/date', compact(
             'i',
             'date',
+            'grand',
             'data',
             'data_gr',
             'amount_terbesar',
